@@ -119,6 +119,55 @@ void main() {
     });
   });
 
+
+  testWidgets('maxPitch is included in creationParams when set', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: MapLibreMap(maxPitch: 85),
+        ),
+      );
+
+      final params = platform.lastCreationParams;
+      expect(params, isNotNull);
+
+      final options = params!['options'] as Map<String, dynamic>;
+      expect(options['maxPitch'], 85.0);
+    });
+
+  group('option updates', () {
+    testWidgets('maxPitch changes are forwarded to the platform', (
+      tester,
+    ) async {
+      platform.triggerPlatformViewCreated = true;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: MapLibreMap(maxPitch: 60),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      platform.reset();
+      platform.triggerPlatformViewCreated = false;
+
+      await tester.pumpWidget(
+        MaterialApp(
+          home: MapLibreMap(maxPitch: 85),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      final calls = platform.callsFor('updateMapOptions');
+      expect(calls, hasLength(1));
+
+      final options =
+          calls.single.positionalArgs.single as Map<String, dynamic>;
+      expect(options['maxPitch'], 85.0);
+    });
+  });
+
   group('onStyleLoaded manager disposal', () {
     test('disposes old managers and re-creates them on style reload', () async {
       final controller = MapLibreMapController(

@@ -11,6 +11,9 @@ abstract class MapLibreMapOptionsSink {
 
   void setMinMaxZoomPreference(num? min, num? max);
 
+  /// Applies the maximum pitch limit supported by the current map runtime.
+  void setMaxPitch(num? maxPitch);
+
   void setGestures({
     required bool rotateGesturesEnabled,
     required bool scrollGesturesEnabled,

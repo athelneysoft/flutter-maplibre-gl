@@ -77,6 +77,9 @@ class MapLibreMapController extends MapLibrePlatform
   Future<void> initPlatform(int id) async {
     final camera =
         _creationParams['initialCameraPosition'] as Map<String, dynamic>?;
+    final options = Map<String, dynamic>.from(
+      (_creationParams['options'] as Map?) ?? const <String, dynamic>{},
+    );
     final styleString = _sanitizeStyleObject(_creationParams['styleString']);
     _dragEnabled = _creationParams['dragEnabled'] ?? true;
 
@@ -90,6 +93,7 @@ class MapLibreMapController extends MapLibrePlatform
         zoom: camera?['zoom'],
         bearing: camera?['bearing'],
         pitch: camera?['tilt'],
+        maxPitch: options['maxPitch'],
         style: styleString,
         preserveDrawingBuffer: _creationParams['webPreserveDrawingBuffer'],
         attributionControl: false, //avoid duplicate control
@@ -113,7 +117,6 @@ class MapLibreMapController extends MapLibrePlatform
 
     _initResizeObserver();
 
-    final options = _creationParams['options'] ?? {};
     Convert.interpretMapLibreMapOptions(options, this, ignoreStyle: true);
   }
 
@@ -1032,6 +1035,11 @@ class MapLibreMapController extends MapLibrePlatform
     // FIX: why is called indefinitely? (map_ui page)
     _map.setMinZoom(min);
     _map.setMaxZoom(max);
+  }
+
+  @override
+  void setMaxPitch(num? maxPitch) {
+    _map.setMaxPitch(maxPitch);
   }
 
   @override

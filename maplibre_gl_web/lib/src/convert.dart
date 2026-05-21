@@ -38,6 +38,9 @@ class Convert {
         options['minMaxZoomPreference'][1],
       );
     }
+    if (options.containsKey('maxPitch')) {
+      sink.setMaxPitch(options['maxPitch']);
+    }
     if (options['rotateGesturesEnabled'] != null &&
         options['scrollGesturesEnabled'] != null &&
         options['tiltGesturesEnabled'] != null &&

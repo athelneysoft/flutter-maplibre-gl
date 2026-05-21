@@ -22,6 +22,7 @@ class MapLibreMap extends StatefulWidget {
     this.compassEnabled = true,
     this.cameraTargetBounds = CameraTargetBounds.unbounded,
     this.minMaxZoomPreference = MinMaxZoomPreference.unbounded,
+    this.maxPitch,
     this.rotateGesturesEnabled = true,
     this.scrollGesturesEnabled = true,
     this.zoomGesturesEnabled = true,
@@ -166,6 +167,12 @@ class MapLibreMap extends StatefulWidget {
   ///
   /// Actual bounds depend on map data and device.
   final MinMaxZoomPreference minMaxZoomPreference;
+
+  /// The maximum pitch the map camera may use, in degrees.
+  ///
+  /// When `null`, each platform keeps its default maximum pitch.
+  /// Implementations that do not support this option ignore it.
+  final double? maxPitch;
 
   /// True if the map view should respond to rotate gestures.
   final bool rotateGesturesEnabled;
@@ -428,6 +435,7 @@ class _MapLibreMapOptions {
     this.cameraTargetBounds,
     this.styleString,
     this.minMaxZoomPreference,
+    this.maxPitch,
     required this.rotateGesturesEnabled,
     required this.scrollGesturesEnabled,
     required this.tiltGesturesEnabled,
@@ -460,6 +468,7 @@ class _MapLibreMapOptions {
         cameraTargetBounds: map.cameraTargetBounds,
         styleString: map.styleString,
         minMaxZoomPreference: map.minMaxZoomPreference,
+        maxPitch: map.maxPitch,
         rotateGesturesEnabled: map.rotateGesturesEnabled,
         scrollGesturesEnabled: map.scrollGesturesEnabled,
         tiltGesturesEnabled: map.tiltGesturesEnabled,
@@ -492,6 +501,8 @@ class _MapLibreMapOptions {
   final String? styleString;
 
   final MinMaxZoomPreference? minMaxZoomPreference;
+
+  final double? maxPitch;
 
   final bool rotateGesturesEnabled;
 
@@ -568,6 +579,7 @@ class _MapLibreMapOptions {
     addIfNonNull('cameraTargetBounds', cameraTargetBounds?.toJson());
     addIfNonNull('styleString', styleString);
     addIfNonNull('minMaxZoomPreference', minMaxZoomPreference?.toJson());
+    addIfNonNull('maxPitch', maxPitch);
 
     addIfNonNull('rotateGesturesEnabled', rotateGesturesEnabled);
     addIfNonNull('scrollGesturesEnabled', scrollGesturesEnabled);
