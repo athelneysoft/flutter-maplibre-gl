@@ -70,6 +70,14 @@ class VectorSourceProperties implements SourceProperties {
   /// Type: promoteId
   final String? promoteId;
 
+  /// The encoding used by this vector source.
+  ///
+  /// Type: enum
+  /// Options:
+  ///   "mlt"
+  ///      MapLibre Tile format tiles.
+  final String? encoding;
+
   const VectorSourceProperties({
     this.url,
     this.tiles,
@@ -79,6 +87,7 @@ class VectorSourceProperties implements SourceProperties {
     this.maxzoom = 22,
     this.attribution,
     this.promoteId,
+    this.encoding,
   });
 
   VectorSourceProperties copyWith(
@@ -90,6 +99,7 @@ class VectorSourceProperties implements SourceProperties {
     double? maxzoom,
     String? attribution,
     String? promoteId,
+    String? encoding,
   ) {
     return VectorSourceProperties(
       url: url ?? this.url,
@@ -100,6 +110,7 @@ class VectorSourceProperties implements SourceProperties {
       maxzoom: maxzoom ?? this.maxzoom,
       attribution: attribution ?? this.attribution,
       promoteId: promoteId ?? this.promoteId,
+      encoding: encoding ?? this.encoding,
     );
   }
 
@@ -122,6 +133,7 @@ class VectorSourceProperties implements SourceProperties {
     addIfPresent('maxzoom', maxzoom);
     addIfPresent('attribution', attribution);
     addIfPresent('promoteId', promoteId);
+    addIfPresent('encoding', encoding);
     return json;
   }
 
@@ -135,6 +147,7 @@ class VectorSourceProperties implements SourceProperties {
       maxzoom: json['maxzoom'],
       attribution: json['attribution'],
       promoteId: json['promoteId'],
+      encoding: json['encoding'],
     );
   }
 }

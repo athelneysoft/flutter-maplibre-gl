@@ -25,6 +25,7 @@ void main() {
       expect(json.containsKey('tiles'), isFalse);
       expect(json.containsKey('attribution'), isFalse);
       expect(json.containsKey('promoteId'), isFalse);
+      expect(json.containsKey('encoding'), isFalse);
     });
 
     test('toJson includes non-null fields', () {
@@ -32,11 +33,13 @@ void main() {
         url: 'https://example.com/tiles.json',
         tiles: ['https://example.com/{z}/{x}/{y}.pbf'],
         attribution: '(c) Test',
+        encoding: 'mlt',
       );
       final json = props.toJson();
       expect(json['url'], 'https://example.com/tiles.json');
       expect(json['tiles'], ['https://example.com/{z}/{x}/{y}.pbf']);
       expect(json['attribution'], '(c) Test');
+      expect(json['encoding'], 'mlt');
     });
 
     test('fromJson roundtrip', () {
@@ -44,11 +47,13 @@ void main() {
         url: 'https://example.com/tiles.json',
         minzoom: 2,
         maxzoom: 14,
+        encoding: 'mlt',
       );
       final restored = VectorSourceProperties.fromJson(original.toJson());
       expect(restored.url, original.url);
       expect(restored.minzoom, original.minzoom);
       expect(restored.maxzoom, original.maxzoom);
+      expect(restored.encoding, original.encoding);
     });
 
     test('copyWith replaces specified fields', () {
@@ -64,10 +69,12 @@ void main() {
         null,
         null,
         null,
+        'mlt',
       );
       expect(updated.url, 'https://new.com');
       expect(updated.minzoom, 5);
       expect(updated.maxzoom, 22); // preserved default
+      expect(updated.encoding, 'mlt');
     });
   });
 
